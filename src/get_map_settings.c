@@ -6,7 +6,7 @@
 /*   By: mafajat <mafajat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 01:43:53 by mafajat           #+#    #+#             */
-/*   Updated: 2021/02/17 03:11:58 by mafajat          ###   ########.fr       */
+/*   Updated: 2021/02/19 19:36:45 by mafajat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,20 @@ void    ft_resolution(char *line)
 
 int    ft_check_map(char* line)
 {
-    if (ft_wall_maria(line) == 0)
-        return (0);
     while(*line == ' ')
         line++;
     if (*line == '1')
     {
         line++;
+        map.line++;
+        if (map.line == 1)
+            return (ft_wall_maria(line));
         if (*line != '1')
         {
-            printf("i'm here");
+            //printf("ok ");
             while (ft_valid_character(line))
             {
-                printf("%d\n", ft_valid_character(line));
+              //  printf("ok2 ");
                 if (*line == '1')
                     return(1);
                 line++;
@@ -59,9 +60,10 @@ int    ft_check_map(char* line)
     }
     return(0);
 }
+
 int     ft_valid_character(char *l)
 {
-    if (*l == 0 || *l == 1 || *l == 2)
+    if (*l == '0' || *l == '1' || *l == '2')
         return (1);
     if (*l == 'N' || *l == 'S' || *l == 'E' || *l == 'W')
         return (1);
@@ -70,10 +72,6 @@ int     ft_valid_character(char *l)
 
 int     ft_wall_maria(char *l)
 {
-    if (wall.maria == 1)
-        return(1);
-    if (ft_wall_maria(l))
-        wall.maria = 1;
     while (*l == ' ')
         l++;
     while (*l == '1')
@@ -94,10 +92,12 @@ int     ft_wall_maria(char *l)
 void    ft_map(char *l)
 {
     int i;
-
+    int r;
     i = 0;
-  // printf("\n%d", ft_check_map(l));
     
+    r = ft_check_map(l);
+    printf("map line %d : %d\n", map.line , r);
+    /*
     if (ft_check_map(l) ==  1)
     {
         map.y++;
@@ -118,7 +118,9 @@ void    ft_map(char *l)
             map.map[map.y][i] = 0;
         }
         printf("%s", map.map[map.y]);
+    
     }
+    */
 }
 void    ft_get_map_settings(char *map)
 {
