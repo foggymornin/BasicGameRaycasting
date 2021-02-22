@@ -6,7 +6,7 @@
 /*   By: mafajat <mafajat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 01:43:53 by mafajat           #+#    #+#             */
-/*   Updated: 2021/02/19 19:36:45 by mafajat          ###   ########.fr       */
+/*   Updated: 2021/02/20 18:42:42 by mafajat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,11 @@ void    ft_get_map_settings(char *map)
         r = get_next_line(fd, &line);
        // printf("%s\n", line);
         ft_resolution(line);
-        ft_map(line);
+        if (ft_ismap(char line))
+        {
+            while (r != 0)
+            map.map = ft_strjoin(map.map, line);
+            
+        }
     }
 }
