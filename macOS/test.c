@@ -6,7 +6,7 @@
 /*   By: mafajat <mafajat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 01:43:45 by mafajat           #+#    #+#             */
-/*   Updated: 2021/02/19 10:25:31 by mafajat          ###   ########.fr       */
+/*   Updated: 2021/02/23 18:30:57 by mafajat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ void            mlx_initialize(char *gamename)
 int             main(int argc, char **argv)
 {
     char *l;
-    char *error;
-
-    error = "Error\nMissing one or more arguments\n";
+    char *error1 = "Error\nMissing one or more arguments\n";
     l = NULL;
     if (argc == 2)
     {
@@ -57,6 +55,6 @@ int             main(int argc, char **argv)
        // mlx_initialize(argv[0] + 2);/
     }
     else
-        write(1, error, ft_strlen(error));
+        write(1, error1, ft_strlen(error1));
     return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: mafajat <mafajat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 01:43:53 by mafajat           #+#    #+#             */
-/*   Updated: 2021/02/22 18:49:28 by mafajat          ###   ########.fr       */
+/*   Updated: 2021/02/25 17:28:43 by mafajat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,114 @@
 
 char    *ft_shift_line(char *line, char c)
 {
-    while (*line == c)
-        line++;
-    while(*line != ' ' && *line)
-        line++;
-    return(line);
+	while (*line == c)
+		line++;
+	while(*line != ' ' && *line)
+		line++;
+	return(line);
 }
 void    ft_resolution(char *line)
 {
-    if (*line)
-    {
-        if (*line == 'R' && *(line + 1) == ' ')
-        {
-            line++;
-            map.r_x = ft_atoi(line);
-            line = ft_shift_line(line, ' ');
-            map.r_y = ft_atoi(line);
-            printf("%d\n", map.r_x);
-            printf("%d\n", map.r_y);
-        }
-    }
+	if (*line)
+	{
+		if (*line == 'R' && *(line + 1) == ' ')
+		{
+			line++;
+			sett.r_x = ft_atoi(line);
+			line = ft_shift_line(line, ' ');
+			sett.r_y = ft_atoi(line);
+			sett.element++;
+			printf("%d\n", sett.r_x);
+			printf("%d\n", sett.r_y);
+		}
+	}
 }
 
 int    ft_ismap(char *l)
 {
-    while (*l == ' ')
-        l++;
-    if (*l == '1')
-        return (1);
-    return(0);
+	char *player;
+	int		i;
+	int j;
+	
+	j = 0;
+	i = 0;
+	player = "NSEW";
+	//printf("wtf %d", sett.player_y);
+	
+	while (l[i] == ' ')
+	{
+		printf("wtf");
+		i++;
+		if (l[i] == 0)
+			return(0);
+	}
+	while (l[i])
+	{
+		if (l[i] == ' ' || l[i] == '1' || l[i] == '2' || l[i] == '0')
+			i++;
+		else if (!sett.player_y)
+		{
+			while(player[j])
+			{
+				if (l[i] == player[j])
+				{
+					sett.player_x = i;
+					sett.player_y = j;
+					i++;
+					j = 0;
+					break;
+				}
+				j++;
+			}
+		}
+		if (player[j] == 0)
+			return (0);
+	}
+	return (1);
 }
 
+void	ft_stockmap()
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	sett.map =(char **) malloc(sizeof(char *) * sett.linenumber);
+	while(x <= sett.linenumber)
+	{
+		sett.map[x] = (char *) malloc(sizeof(char) * sett.longestline);
+		while()
+	}
+}
 void    ft_get_map_settings(char *file)
 {
-    char *line;
-    int fd;
-    int r;
+	char *line;
+	int fd;
+	int r;
+	
+	char *er2;
 
-	map.data = malloc (sizeof(char *));
-	*map.data = 0;
-    r = 1;
-    fd = open(file, O_RDONLY);
-    while(r != 0)
-    {
-        r = get_next_line(fd, &line);
-        ft_resolution(line);
-		while (r && ft_ismap(line))
+	er2 = "Error\ninvalid map";
+	sett.data = malloc (sizeof(char *));
+	*sett.data = 0;
+	r = 1;
+	fd = open(file, O_RDONLY);
+	while(r != 0)
+	{
+		r = get_next_line(fd, &line);
+		ft_resolution(line);
+		if (sett.element == 1)
 		{
-			map.linenumber++;
-			if (ft_strlen(line) > map.longestline)
-				map.longestline = ft_strlen(line);
-			map.data = ft_strjoin2(map.data, line);
-			r = get_next_line(fd, &line);
+			if (ft_ismap(line))
+			{
+				sett.linenumber++;
+				if (ft_strlen(line) > sett.longestline)
+				sett.longestline = ft_strlen(line);
+				sett.data = ft_strjoin2(sett.data, line);
+			}
 		}
-    }
-	printf("%s\nnumber of lines : %d\nlongest line : %zu\n", map.data, map.linenumber, map.longestline);
+	}
+	ft_stockmap();
+	printf("%s\nnumber of lines : %d\nlongest line : %zu\n", sett.data, sett.linenumber, sett.longestline);
 }
