@@ -6,7 +6,7 @@
 /*   By: mafajat <mafajat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 01:43:45 by mafajat           #+#    #+#             */
-/*   Updated: 2021/02/23 18:30:57 by mafajat          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:24:59 by mafajat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void            mlx_initialize(char *gamename)
     img.img = mlx_new_image(mlx, 1920, 1080);
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
                                  &img.endian);
-    my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
+    ft_minimap(&img);
     mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
     mlx_loop(mlx);
 }
@@ -52,7 +52,7 @@ int             main(int argc, char **argv)
     if (argc == 2)
     {
         ft_get_map_settings(argv[1]);
-       // mlx_initialize(argv[0] + 2);/
+        mlx_initialize(argv[0] + 2);
     }
     else
         write(1, error1, ft_strlen(error1));

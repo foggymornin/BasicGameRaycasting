@@ -6,7 +6,7 @@
 /*   By: mafajat <mafajat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 01:43:53 by mafajat           #+#    #+#             */
-/*   Updated: 2021/02/25 17:28:43 by mafajat          ###   ########.fr       */
+/*   Updated: 2021/03/01 15:38:49 by mafajat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void    ft_resolution(char *line)
 			line = ft_shift_line(line, ' ');
 			sett.r_y = ft_atoi(line);
 			sett.element++;
-			printf("%d\n", sett.r_x);
-			printf("%d\n", sett.r_y);
+			//printf("%d\n", sett.r_x);
+			//printf("%d\n", sett.r_y);
 		}
 	}
 }
@@ -48,7 +48,7 @@ int    ft_ismap(char *l)
 	player = "NSEW";
 	//printf("wtf %d", sett.player_y);
 	
-	while (l[i] == ' ')
+	while (l[i] == ' ' || l[i] == '\n')
 	{
 		printf("wtf");
 		i++;
@@ -75,7 +75,7 @@ int    ft_ismap(char *l)
 			}
 		}
 		if (player[j] == 0)
-			return (0);
+			return (0);	
 	}
 	return (1);
 }
@@ -83,24 +83,39 @@ int    ft_ismap(char *l)
 void	ft_stockmap()
 {
 	int x;
-	int y;
+	size_t y;
+	int i;
 
-	x = 0;
+	i = 0;
+	x = -1;
 	y = 0;
-	sett.map =(char **) malloc(sizeof(char *) * sett.linenumber);
-	while(x <= sett.linenumber)
+	sett.map = (char **) malloc(sizeof(char *) * sett.linenumber);
+	while(++x < sett.linenumber)
 	{
 		sett.map[x] = (char *) malloc(sizeof(char) * sett.longestline);
-		while()
+		while(sett.data[i] != '\n')
+		{
+			sett.map[x][y] = sett.data[i];
+			y++;
+			i++;
+		}
+		i++;
+		while (y < sett.longestline)
+		{
+			sett.map[x][y] = ' ';
+			y++;
+		}
+		y = 0;
 	}
 }
+
 void    ft_get_map_settings(char *file)
 {
 	char *line;
 	int fd;
 	int r;
-	
 	char *er2;
+
 
 	er2 = "Error\ninvalid map";
 	sett.data = malloc (sizeof(char *));
@@ -111,17 +126,17 @@ void    ft_get_map_settings(char *file)
 	{
 		r = get_next_line(fd, &line);
 		ft_resolution(line);
-		if (sett.element == 1)
+		if (sett.element == 1 && *line != '\n')
 		{
 			if (ft_ismap(line))
 			{
 				sett.linenumber++;
 				if (ft_strlen(line) > sett.longestline)
-				sett.longestline = ft_strlen(line);
+					sett.longestline = ft_strlen(line);
 				sett.data = ft_strjoin2(sett.data, line);
 			}
 		}
 	}
 	ft_stockmap();
-	printf("%s\nnumber of lines : %d\nlongest line : %zu\n", sett.data, sett.linenumber, sett.longestline);
+	//printf("%s\nnumber of lines : %d\nlongest line : %zu\n", sett.data, sett.linenumber, sett.longestline);
 }
